@@ -82,7 +82,7 @@ void loop() {
     if (readline(Serial.read(), buffer, 80) > 0) {
       OldI2CAddress = atoi(buffer);
       Serial.print("You entered old: ");
-      Serial.print(OldI2CAddress);
+      printAddress(OldI2CAddress);
       Serial.println(" ");
 
     }
@@ -97,7 +97,7 @@ void loop() {
     if (readline(Serial.read(), buffer, 80) > 0) {
       NewI2CAddress = atoi(buffer);
       Serial.print("You entered new: ");
-      Serial.print(NewI2CAddress);
+      printAddress(NewI2CAddress);
       Serial.println(" ");
     }
   }
@@ -204,14 +204,14 @@ void loop() {
       if (error == 0)
       {
         Serial.print("I2C device found at address ");
-        Serial.print(address, DEC); Serial.println(" (decimal)");
+        printAddress(address); Serial.println(" ");
 
         nDevices++;
       }
       else if (error == 4)
       {
         Serial.print("Unknow error at address ");
-        Serial.println(address, DEC);
+        printAddress(address); Serial.println(" ");
       }
     }
     if (nDevices == 0)
@@ -219,4 +219,18 @@ void loop() {
     else
       Serial.println("done\n");
 
+  }
+
+  void printAddress(int address)
+  {
+    Serial.print(address, DEC);
+    Serial.print(" (decimal) or Ox");
+    
+    if (address <= 0xF)
+    {
+      Serial.print("0");
+    }
+    
+    Serial.print(address, HEX);
+    Serial.print(" (hexadecimal)");
   }
